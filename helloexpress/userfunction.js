@@ -7,8 +7,7 @@ MongoClient.connect(url, function (err, database) {
     console.log("Connected to " + url);
 });
 
-
-function getalluser(req, res) {
+function getall(req, res) {
     db.collection("users").find({}).toArray(function (err, result) {
         if (err) throw err;
         console.log(result);
@@ -28,7 +27,7 @@ function getfname(req, res) {
     });
 }
 
-function getuserrole(req, res) {
+function getfindrole(req, res) {
     var role = req.params.role;
     var query = { role: role };
     db.collection("users").find(query).toArray(function (err, result) {
@@ -39,8 +38,21 @@ function getuserrole(req, res) {
     });
 }
 
+function getexpired(req, res) {
+    var para = req.param('expired');
+    var query = { expired: true };
+    db.collection("users").find(query).toArray(function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+
+    });
+}
+
+
 module.exports = {
     getall: getall,
     getfname: getfname,
+    getexpired: getexpired,
     getfindrole: getfindrole
 };
